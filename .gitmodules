@@ -1,0 +1,3 @@
+[submodule "chparse"]
+	path = chparse
+	url = https://github.com/Kenny2github/chparse.git
