@@ -5,11 +5,14 @@ Created on Tue Dec 17 15:44:09 2019
 @author: codyl
 """
 
+import chparse
+
+
 def tickstoseconds(ticks, bpm):
-    return None
+    return ticks / 192 * 60 / bpm  #192 ticks per beat divided by beats per second
+                                    #this is hardcoded to the resolution, may need to pull from metadata of the song
 
 #%% import chart
-import chparse
 with open('notes.chart', encoding=('utf-8-sig')) as chartfile:
     chart = chparse.parse.load(chartfile)
 xg = chart.instruments[chparse.EXPERT][chparse.GUITAR]
@@ -21,10 +24,7 @@ sync = chart.sync_track
 bpmarray = {}
 for bpm in sync:
     if bpm.kind.value == 'B':
-        if bpmarray.get(bpm.time, -1) == -1:
-            bpmarray[bpm.time] = [bpm.value / 1000]
-        else:
-            bpmarray[bpm.time] += [bpm.value / 1000] #catch all just in case, this should be unused though
+        bpmarray[bpm.time] = bpm.value / 1000
             
 #%% add notes to a dictionary cooresponding to their tick number, and group chords together
 fretarray = {}
@@ -35,9 +35,14 @@ for note in xg:
         else:
             fretarray[note.time] += [note.fret]
 
-#%%calcs
-
-
+#%%calculate song length
+bpmlocs = list(bpmarray.keys())
+songlength = 0
+for k in range(len(bpmlocs) - 1):
+    bpmlength = bpmlocs[k+1] - bpmlocs[k]
+    songlength += tickstoseconds(bpmlength, bpmarray[bpmlocs[k]])
+songlength += tickstoseconds(max(fretarray.keys()) - max(bpmlocs), bpmarray[max(bpmlocs)])
 #%% printing diagnostincs
 print(fretarray)
 print(bpmarray)
+print(songlength)
