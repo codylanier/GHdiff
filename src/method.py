@@ -10,9 +10,68 @@ import numpy as np
 
 def tickstoseconds(ticks, bpm):
     return ticks / 192 * 60 / bpm  #192 ticks per beat divided by beats per second
-                                    #this is hardcoded to the resolution, may need to pull from metadata of the song
-                                    
+                                    #this is hardcoded to the resolution, may need to pull from metadata of the song 
+
+#%%Chimney Detection
+def isTChimney(notes):
+    pass
+
+def isQuadChimney(notes):
+    pass
+
+def isQuintChimney(notes):
+    pass
+
+#%%Reverse Chimney Detection
+def isTReverseChimney(notes):
+    pass  
+
+def isQReverseChimney(notes):
+    pass
+
+def isQuintReverseChimney(notes):
+    pass
+
+#%%Trip Detection
+def isAscTrip(notes):
+    return note[0] < note[1] and note[1] < note[2]
+
+def isDscTrip(notes):
+    return note[0] > note[1] and note[1] > note[2]
+
+#%% Quad Detection
+def isAscQuad(notes):
+    return note[0] < note[1] and note[1] < note[2] and note[2] < note[3]
+
+def isDscQuad(notes):
+    return note[0] > note[1] and note[1] > note[2] and note[2] > note[3]
+
+#%%Quint Detection
+def isAscQuint(notes):
+    return note[0] < note[1] and note[1] < note[2] and note[2] < note[3] and note[3] < note[4]
+
+def isDscQuint(notes):
+    return note[0] > note[1] and note[1] > note[2] and note[2] > note[3] and note[3] > note[4]
+#%%Zig Detection
+def isZig(notes):
+    return note[0] < note[1] and note[1] < note[2] and note[3] == note[1]
+
+def isQuadZig(notes):
+    return note[0] < note[1] and note[1] < note[2] and note[2] < note[3] and note[4] == note[2] and note[5] == note[1]
+
+def isQuintZig(notes):
+    return note[0] < note[1] and note[1] < note[2] and note[2] < note[3] and note[3] < note[4] and note[5] == note[3] and note[6] == note[2] and note[7] == note[1]
+
+#%%Other Detection
+def isStrum(notes):
+    pass
+
+def isHOPO(notes):
+    pass
+
+
 def methodgrouper(fretdict):     #designed to detect zig zags in numbers, not quite working correctly yet
+    #will probably become deprecated soon
     notearray = list(fretarray.values())
     methodlist = []
     methodinst = []
