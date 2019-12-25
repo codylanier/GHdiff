@@ -48,11 +48,13 @@ def isQuintReverseChimney(note):
 
 #%%Trip Detection
 def isAscTrip(note):
-    methodnotecount = 3
+    if len(note) < 3:
+        return False
     return note[0] < note[1] and note[1] < note[2]
 
 def isDscTrip(note):
-    methodnotecount = 3
+    if len(note) < 3:
+        return False
     return note[0] > note[1] and note[1] > note[2]
 
 #%% Quad Detection
